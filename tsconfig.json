@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+      "target": "ES6",
+      "module": "es2015",
+      "moduleResolution": "node",
+      "jsx": "react",
+          "sourceMap": true,
+          "noImplicitAny": true
+    },
+    "exclude": [
+      "node_modules",    
+      "**/*.test.tsx"    
+    ],
+    "compileOnSave": false,
+    "buildOnSave": false,
+    "awesomeTypescriptLoaderOptions": {
+      "useBabel": true,
+      "useCache": true
+    }  
+  }
+  
