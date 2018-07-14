@@ -10,8 +10,8 @@ import { createBrowserHistory, createHashHistory } from 'history'
 
 // choose type of history
 // const history = createBrowserHistory();
-const history = createHashHistory();
-const middleware = routerMiddleware(history);
+const globalHistory = createHashHistory();
+const middleware = routerMiddleware(globalHistory);
 
 // reducers
 
@@ -82,7 +82,7 @@ const Foo = (props: RouteComponentProps<IFooRouterProps>) => {
 }
 const Bar = () => <div>
         Bar <NavLink to="/">App</NavLink>
-        <button onClick={e => history.push("/foo")}>Click to Foo</button>
+        <button onClick={e => globalHistory.push("/foo")}>Click to Foo</button>
     </div>
 
 // redux
@@ -107,7 +107,7 @@ class ReduxComponent extends React.Component<IReduxConnectedProps, IReduxConnect
     }
 
     render() {
-        const {valueInStore, setValue, setRoute, match: {params }} = this.props;
+        const {valueInStore, setValue, setRoute, match: {params }, history} = this.props;
         const ticks = new Date();
 
         return <div>
@@ -115,7 +115,8 @@ class ReduxComponent extends React.Component<IReduxConnectedProps, IReduxConnect
             <div>StoreValue ({valueInStore})</div>
             <div>RouterValue ({params.id})</div>
             <div>Set store value: <button onClick={e => setValue(valueInStore + 1)}>Click</button></div>
-            <div>Set router via history: <button onClick={e => history.push(`/rdx/${ticks.getMilliseconds()}`) }>Click</button></div>
+            <div>Set router via global history: <button onClick={e => globalHistory.push(`/rdx/${ticks.getMilliseconds()}`) }>Click</button></div>
+            <div>Set router via props history: <button onClick={e => history.push(`/rdx/${ticks.getMilliseconds()}`) }>Click</button></div>
             <div>Set router via action: <button onClick={e => setRoute(ticks.getMilliseconds().toString())}>Click</button></div>
         </div>
     }
@@ -136,7 +137,7 @@ console.log("Loaded", store, ConnectedRouter);
 
 ReactDOM.render(
   <Provider store={store}>
-    <ConnectedRouter history={history}>
+    <ConnectedRouter history={globalHistory}>
         <Switch>
             <Route path="/" exact component={App}/>
             <Route path="/foo/:id?" component={Foo}/>
